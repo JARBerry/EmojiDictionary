@@ -23,11 +23,11 @@ class EmojiTableViewController: UITableViewController {
     Emoji(symbol: "📚",name: "Stack Of Books", description: "Three colored books stacked on each other", usage: "homework, studying"),
     Emoji(symbol: "💔", name: "Broken Heart", description: "A red, broken heart", usage: "Extreme sadness"),
     Emoji(symbol: "💤", name: "Snore", description: "three blue \'z\'s", usage: "Tired,sleepiness"),
-    Emoji(symbol: "🏁", name: "Checkered Flag", description: "A black-and-white checkered flag", usage: "Completion")
-    
+    Emoji(symbol: "🏁", name: "Checkered Flag", description: "A black-and-white checkered flag", usage: "Completion"),
+    Emoji(symbol: "🤡", name: "Clown", description: "A smiley clown face", usage: "scare the kids"),
+    Emoji(symbol: "🐶", name: "Dog", description: "A lovely little dog", usage: "walking"),
+    Emoji(symbol: "🐰", name: "Rabbit", description: "A fluffy rabbit", usage: "cuddling")
         
-   
-    
     ]
 
     override func viewDidLoad() {
@@ -43,24 +43,32 @@ class EmojiTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+              return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if section == 0 {
+            return emojis.count
+        } else {
+            return 0
+        }
     }
-
-    /*
+    
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EmojiCell", for : indexPath)
 
+        let emoji = emojis[indexPath.row]
+        
+        cell.textLabel?.text = "\(emoji.symbol) - \(emoji.name)"
+        
+        cell.detailTextLabel?.text = emoji.description
+        
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
