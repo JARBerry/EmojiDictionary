@@ -10,6 +10,9 @@ import UIKit
 
 class EmojiTableViewController: UITableViewController {
     
+    
+    //Load intial array
+    
     var emojis: [Emoji] = [
     Emoji(symbol: "😀", name: "Grinning Face", description: "A typical smiley face", usage: "Happiness"),
     Emoji(symbol: "😕", name: "Confused Face", description: "A confused puzzled face", usage: "Unsure what to think; displeasure"),
@@ -70,11 +73,7 @@ class EmojiTableViewController: UITableViewController {
         return cell
     }
 
-    
-//   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let emoji = emojis[indexPath.row]
-//        print("\(emoji.symbol) \(indexPath) \(emoji.description)")
-//    }
+  
     
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         let movedEmoji = emojis.remove(at: fromIndexPath.row)
@@ -98,6 +97,48 @@ class EmojiTableViewController: UITableViewController {
         }
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+
+        if segue.identifier == "EditEmoji"{
+        let indexPath = tableView.indexPathForSelectedRow!
+            let emoji = emojis[indexPath.row]
+    
+// Need to downcast AddEditEmojiTableViewController from Navigation controller
+            
+            let navViewController = segue.destination as! UINavigationController
+            
+            let addEditTableViewController = navViewController.topViewController as! AddEditEmojiTableViewController
+//            let addEditTableViewContoller = segue.destination
+//            as! AddEditEmojiTableViewController
+            addEditTableViewController.emoji = emoji
+        }
+    }
+    
+    @IBAction func unwindToEmojiTableView(segue:UIStoryboardSegue)
+    {
+        guard segue.identifier == "saveUnwind" else { return }
+        let sourceViewController = segue.source as! AddEditEmojiTableViewController
+        
+        if let emoji = sourceViewController.emoji {
+            
+            // update original emojis
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                emojis[selectedIndexPath.row] = emoji
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            } else {
+                
+            // add new emojis
+                
+                let newIndexPath = IndexPath(row: emojis.count, section: 0)
+                emojis.append(emoji)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        }
+        
+        
+    }
+    
     @IBAction func editButtonTapped(_ sender: UIBarButtonItem) {
         
         let tableViewEditingMode = tableView.isEditing
