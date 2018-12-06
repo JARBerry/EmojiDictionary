@@ -71,10 +71,10 @@ class EmojiTableViewController: UITableViewController {
     }
 
     
-   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let emoji = emojis[indexPath.row]
-        print("\(emoji.symbol) \(indexPath) \(emoji.description)")
-    }
+//   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let emoji = emojis[indexPath.row]
+//        print("\(emoji.symbol) \(indexPath) \(emoji.description)")
+//    }
     
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         let movedEmoji = emojis.remove(at: fromIndexPath.row)
@@ -83,11 +83,19 @@ class EmojiTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .none
+        return .delete
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            emojis.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 
     @IBAction func editButtonTapped(_ sender: UIBarButtonItem) {
