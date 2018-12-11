@@ -30,34 +30,27 @@ class Emoji: Codable{
         self.usage = usage
     }
     
-   
+   // Writes data to file
     static func saveToFile(emojis: [Emoji]) {
-        
-        print("saveToFile Entered \(emojis)")
+    
         let propertyListEncoder = PropertyListEncoder()
         let encodedEmoji = try? propertyListEncoder.encode(emojis)
         
         try? encodedEmoji?.write(to: archiveURL)
         
-      
-
-        
     }
-    
+  // loads data from f
  static func loadFromFile() -> [Emoji]? {
         let propertyListDecoder = PropertyListDecoder()
         if let retrievedEmojiData = try? Data(contentsOf: archiveURL),
             let decodedEmoji = try?
                 propertyListDecoder.decode(Array<Emoji>.self, from:
                     retrievedEmojiData) {
-            print(decodedEmoji)
-
-//retrieve data
+//returns retrieved data
             return decodedEmoji
         }
     
-    
-// if no data found return nil 
+// if no data found return nil
       return nil
         
     }

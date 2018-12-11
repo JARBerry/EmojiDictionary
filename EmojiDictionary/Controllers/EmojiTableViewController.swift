@@ -23,20 +23,20 @@ class EmojiTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 44.0
         
        
-        
+       //checks if data already saved and loads sample data plus saved data
         if let savedData = Emoji.loadFromFile() {
              emojis.append(contentsOf: Emoji.loadSampleEmojis())
             emojis.append(contentsOf: savedData)
+       // otherwise loads only Sample data only
         } else {
             emojis.append(contentsOf: Emoji.loadSampleEmojis())
         }
-        
-        
-        
     }
 
     // MARK: - Table view data source
-
+    
+    
+    // returns only 1 section
     override func numberOfSections(in tableView: UITableView) -> Int {
               return 1
     }
@@ -73,7 +73,7 @@ class EmojiTableViewController: UITableViewController {
     }
 
   
-    
+    // puts emoji data into tableview cell
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         let movedEmoji = emojis.remove(at: fromIndexPath.row)
         emojis.insert(movedEmoji, at: to.row)
@@ -92,6 +92,8 @@ class EmojiTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    
+    // deletes emojodata or savestofile
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             emojis.remove(at: indexPath.row)
