@@ -8,35 +8,31 @@
 
 import UIKit
 
+
+
 class EmojiTableViewController: UITableViewController {
     
-    
-    //Load intial array
-    
-    var emojis: [Emoji] = [
-    Emoji(symbol: "😀", name: "Grinning Face", description: "A typical smiley face", usage: "Happiness"),
-    Emoji(symbol: "😕", name: "Confused Face", description: "A confused puzzled face", usage: "Unsure what to think; displeasure"),
-    Emoji(symbol: "😍", name: "Heart Eyes", description: "A smiley face with hearts for eyes", usage: "Love of something; attractive"),
-    Emoji(symbol: "👮🏻‍♂️", name: "Police Officer", description: "A police officer wearing a blue cap with a gold badge", usage: "Person of authority"),
-    Emoji(symbol: "🐢", name: "Turtle", description: "A cute turtle", usage: "Something slow"),
-    Emoji(symbol: "🐘", name: "Elephant", description: "A gray elephant", usage: "Good memory"),
-    Emoji(symbol: "🍝", name: "Spaghetti", description: "A plate of spaghetti", usage: "Spaghetti"),
-    Emoji(symbol: "🎲", name: "Dice", description: "A single dice", usage: "Taking a risk, chance; game"),
-    Emoji(symbol: "⛺️", name: "Tent", description: "A small tent", usage: "Camping"),
-    Emoji(symbol: "📚",name: "Stack Of Books", description: "Three colored books stacked on each other", usage: "homework, studying"),
-    Emoji(symbol: "💔", name: "Broken Heart", description: "A red, broken heart", usage: "Extreme sadness"),
-    Emoji(symbol: "💤", name: "Snore", description: "three blue \'z\'s", usage: "Tired,sleepiness"),
-    Emoji(symbol: "🏁", name: "Checkered Flag", description: "A black-and-white checkered flag", usage: "Completion"),
-    Emoji(symbol: "🤡", name: "Clown", description: "A smiley clown face", usage: "scare the kids"),
-    Emoji(symbol: "🐶", name: "Dog", description: "A lovely little dog", usage: "walking"),
-    Emoji(symbol: "🐰", name: "Rabbit", description: "A fluffy rabbit", usage: "cuddling")
-        
-    ]
+  var emojis: [Emoji] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = editButtonItem
-
+        
+        // prevents decsription from being truncated
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44.0
+        
+       
+        
+        if let savedData = Emoji.loadFromFile() {
+             emojis.append(contentsOf: Emoji.loadSampleEmojis())
+            emojis.append(contentsOf: savedData)
+        } else {
+            emojis.append(contentsOf: Emoji.loadSampleEmojis())
+        }
+        
+        
+        
     }
 
     // MARK: - Table view data source
@@ -45,6 +41,8 @@ class EmojiTableViewController: UITableViewController {
               return 1
     }
 
+   
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return emojis.count
@@ -54,6 +52,7 @@ class EmojiTableViewController: UITableViewController {
     }
     
     
+    // custom cell
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -78,6 +77,9 @@ class EmojiTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         let movedEmoji = emojis.remove(at: fromIndexPath.row)
         emojis.insert(movedEmoji, at: to.row)
+        
+        Emoji.saveToFile(emojis: emojis)
+        
         tableView.reloadData()
     }
     
@@ -94,6 +96,8 @@ class EmojiTableViewController: UITableViewController {
         if editingStyle == .delete {
             emojis.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            Emoji.saveToFile(emojis: emojis)
+            
         }
     }
 
@@ -134,6 +138,12 @@ class EmojiTableViewController: UITableViewController {
                 emojis.append(emoji)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
+            
+            // Save to file
+            
+            Emoji.saveToFile(emojis: emojis)
+            
+            
         }
         
         
