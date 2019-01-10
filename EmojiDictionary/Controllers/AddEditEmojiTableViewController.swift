@@ -2,7 +2,7 @@
 //  AddEditEmojiTableViewController.swift
 //  EmojiDictionary
 //
-//  Created by Ray Berry on 06/12/2018.
+//  Created by James and Ray Berry on 06/12/2018.
 //  Copyright © 2018 JARBerry. All rights reserved.
 //
 
@@ -28,6 +28,8 @@ class AddEditEmojiTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // update view fields with model fields - load up symbol, name and description
+        
         if let emoji = emoji {
             symbolTextField.text = emoji.symbol
             nameTextField.text = emoji.name
@@ -37,7 +39,7 @@ class AddEditEmojiTableViewController: UITableViewController {
         updateSaveButtonState()
     }
 
-    
+    // update data after save button pressed
     
     func updateSaveButtonState() {
         
@@ -51,6 +53,8 @@ class AddEditEmojiTableViewController: UITableViewController {
         
     }
     
+    
+    // unwind Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -63,6 +67,8 @@ class AddEditEmojiTableViewController: UITableViewController {
         emoji = Emoji(symbol: symbol, name: name, description: description, usage: usage)
     }
     
+    
+    // save data if text is edited
     
     @IBAction func textEditingChanged(_ sender: UITextField) {
         

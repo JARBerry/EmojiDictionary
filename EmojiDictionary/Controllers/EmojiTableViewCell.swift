@@ -2,7 +2,7 @@
 //  EmojiTableViewCell.swift
 //  EmojiDictionary
 //
-//  Created by Ray Berry on 06/12/2018.
+//  Created by James and Ray Berry on 06/12/2018.
 //  Copyright © 2018 JARBerry. All rights reserved.
 //
 
@@ -17,6 +17,8 @@ class EmojiTableViewCell: UITableViewCell {
     
     
     @IBOutlet weak var descriptionLabel: UILabel!
+    
+    // update fields with model data
     
     func update(with emoji: Emoji) {
     symbolLabel.text = emoji.symbol

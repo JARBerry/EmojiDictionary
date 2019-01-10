@@ -39,7 +39,7 @@ class Emoji: Codable{
         try? encodedEmoji?.write(to: archiveURL)
         
     }
-  // loads data from f
+  // loads data from file
  static func loadFromFile() -> [Emoji]? {
         let propertyListDecoder = PropertyListDecoder()
         if let retrievedEmojiData = try? Data(contentsOf: archiveURL),
