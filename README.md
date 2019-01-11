@@ -1,7 +1,7 @@
 # EmojiDictionary
 
 ## Overview
-This is an App to create a list of Emojis storing a description and usage, describing each one. 
+This is an App to create a list of Emojis storing a description and usage. 
 
 ## Features in the Demo 
 
@@ -11,7 +11,7 @@ This is an App to create a list of Emojis storing a description and usage, descr
 
 . Codeable - ability to read and write data from a file
 
-. Segue transitions from overiew of emoji to edit/update.
+. Segue transitions from overiew of emoji to edit/update
 
 . Unwind of segue to return the user to the EmojiDictionary main screen after edit/update
 
